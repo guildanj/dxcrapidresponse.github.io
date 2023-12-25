@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rapid Response SM - Monitoring Dashboard</title>
+    <link rel="shortcut icon" href="./assets/images/favicon.ico" type="image/x-icon">
+
+    <link rel="stylesheet" href="./assets/css/main.css">
+    <link rel="stylesheet" href="./assets/css/loading.css">
+</head>
+
+<body class="bg-slate-100">
+    <header
+        class="w-full sticky top-0 z-40 max-h-16 h-16 bg-white shadow-sm border-b border-slate-200 px-3 py-2 flex flex-row items-center">
+        <img class="w-12 h-12 object-fill" src="./assets/images/ficon.gif" alt="">
+        <div class="ml-3 flex flex-col">
+            <h2 class="text-xs">RapidResponse SM</h2>
+            <h1 class="font-semibold">Monitoring Dashboard</h1>
+        </div>
+
+        <div class="flex-grow"></div>
+
+        <div class="flex flex-row gap-1 font-semibold text-sm items-center">
+            <a href="#" class="p-2 hover:bg-slate-100 rounded-lg text-black font-bold underline-offset-4 underline">Data
+                Updates</a>
+            <a href="#" class="hover:bg-slate-100 rounded-lg p-2 hover:underline underline-offset-4">Argos</a>
+            <a href="#" class="hover:bg-slate-100 rounded-lg p-2 hover:underline underline-offset-4">Maple Leaf</a>
+            <a href="#" class="hover:bg-slate-100 rounded-lg p-2 hover:underline underline-offset-4">RPA Jobs</a>
+            <a href="#" class="hover:bg-slate-100 rounded-lg p-2 hover:underline underline-offset-4">CFR Solution</a>
+        </div>
+    </header>
+
+
+
+    <div class="w-full h-[2000px] p-4">
+
+        <div class="bg-white shadow-sm rounded-lg p-4 border border-slate-200">
+            <div class="w-full flex flex-row justify-between items-center">
+
+                <div class="flex flex-col">
+                    <h1 class="font-semibold">RapidResponse Data Updates</h1>
+                    <p class="text-xs text-gray-500">You can manually refresh the dashboard by clicking the refresh icon
+                        on the right. Enabling the switch will automatically refresh the dashboard every 5 minutes.</p>
+                </div>
+
+                <div class="flex flex-row gap-2 items-center">
+                    <div class="group rounded-lg px-2 py-1 hover:bg-slate-200">
+                        <select class="group-hover:bg-slate-200 text-sm cursor-pointer focus:outline-none w-[90px]"
+                            id="dateSelector">
+                            <option value="0"> Today </option>
+                            <option value="-1"> Yesterday </option>
+                            <option value="-2"> -2 Days </option>
+                        </select>
+                    </div>
+                    <button class="m-0 p-2 rounded-full hover:bg-slate-200" title="Refresh All">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
+                            <path fill-rule="evenodd"
+                                d="M4.755 10.059a7.5 7.5 0 0112.548-3.364l1.903 1.903h-3.183a.75.75 0 100 1.5h4.992a.75.75 0 00.75-.75V4.356a.75.75 0 00-1.5 0v3.18l-1.9-1.9A9 9 0 003.306 9.67a.75.75 0 101.45.388zm15.408 3.352a.75.75 0 00-.919.53 7.5 7.5 0 01-12.548 3.364l-1.902-1.903h3.183a.75.75 0 000-1.5H2.984a.75.75 0 00-.75.75v4.992a.75.75 0 001.5 0v-3.18l1.9 1.9a9 9 0 0015.059-4.035.75.75 0 00-.53-.918z"
+                                clip-rule="evenodd" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="w-full h-min grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-2 mt-3">
+
+
+            <!-- ASIA -->
+            <div id="AS-group" data-env="1"
+                class="w-full h-min min-h-[350px] bg-white shadow-sm rounded-lg p-4 border border-slate-200">
+                <div class="w-full flex items-center gap-2 mb-3">
+                    <div class="flex flex-row items-center gap-2">
+                        <h1 class="font-semibold line-clamp-1">ASIA (APAC & GC)</h1>
+                        <span id="AS-env-tag"
+                            class="bg-white border border-slate-300 shadow-sm px-1 rounded-md text-[10px]">Production</span>
+                    </div>
+                    <div class="flex flex-grow"></div>
+                    <button onclick="switchEnv('AS')" class="m-0 p-1 rounded-full hover:bg-slate-200"
+                        title="Switch Environment">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4">
+                            <path fill-rule="evenodd"
+                                d="M15.97 2.47a.75.75 0 011.06 0l4.5 4.5a.75.75 0 010 1.06l-4.5 4.5a.75.75 0 11-1.06-1.06l3.22-3.22H7.5a.75.75 0 010-1.5h11.69l-3.22-3.22a.75.75 0 010-1.06zm-7.94 9a.75.75 0 010 1.06l-3.22 3.22H16.5a.75.75 0 010 1.5H4.81l3.22 3.22a.75.75 0 11-1.06 1.06l-4.5-4.5a.75.75 0 010-1.06l4.5-4.5a.75.75 0 011.06 0z"
+                                clip-rule="evenodd" />
+                        </svg>
+                    </button>
+                    <button onclick="refreshGroup('AS')" class="m-0 p-1 rounded-full hover:bg-slate-200"
+                        title="Refresh">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4">
+                            <path fill-rule="evenodd"
+                                d="M4.755 10.059a7.5 7.5 0 0112.548-3.364l1.903 1.903h-3.183a.75.75 0 100 1.5h4.992a.75.75 0 00.75-.75V4.356a.75.75 0 00-1.5 0v3.18l-1.9-1.9A9 9 0 003.306 9.67a.75.75 0 101.45.388zm15.408 3.352a.75.75 0 00-.919.53 7.5 7.5 0 01-12.548 3.364l-1.902-1.903h3.183a.75.75 0 000-1.5H2.984a.75.75 0 00-.75.75v4.992a.75.75 0 001.5 0v-3.18l1.9 1.9a9 9 0 0015.059-4.035.75.75 0 00-.53-.918z"
+                                clip-rule="evenodd" />
+                        </svg>
+                    </button>
+                </div>
+
+                <ul id="AS-PROD-list" class="w-full flex flex-col gap-2">
+                </ul>
+                <ul id="AS-QA-list" class="w-full hidden flex-col gap-2">
+                </ul>
+
+            </div>
+
+
+            <!-- EUROPE -->
+            <div id="EU-group" data-env="1"
+                class="w-full h-max min-h-[350px] bg-white shadow-sm rounded-lg p-4 border border-slate-200">
+                <div class="w-full flex items-center justify-between mb-3">
+                    <div class="flex flex-row items-center gap-2">
+                        <h1 class="font-semibold line-clamp-1">EUROPE (EMEA)</h1>
+                        <span id="EU-env-tag"
+                            class="bg-white border border-slate-300 shadow-sm px-1 rounded-md text-[10px]">Production</span>
+                    </div>
+                    <div class="flex flex-grow"></div>
+                    <button onclick="switchEnv('EU')" class="m-0 p-1 rounded-full hover:bg-slate-200"
+                        title="Switch Environment">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4">
+                            <path fill-rule="evenodd"
+                                d="M15.97 2.47a.75.75 0 011.06 0l4.5 4.5a.75.75 0 010 1.06l-4.5 4.5a.75.75 0 11-1.06-1.06l3.22-3.22H7.5a.75.75 0 010-1.5h11.69l-3.22-3.22a.75.75 0 010-1.06zm-7.94 9a.75.75 0 010 1.06l-3.22 3.22H16.5a.75.75 0 010 1.5H4.81l3.22 3.22a.75.75 0 11-1.06 1.06l-4.5-4.5a.75.75 0 010-1.06l4.5-4.5a.75.75 0 011.06 0z"
+                                clip-rule="evenodd" />
+                        </svg>
+                    </button>
+                    <button onclick="refreshGroup('EU')" class="m-0 p-1 rounded-full hover:bg-slate-200"
+                        title="Refresh">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4">
+                            <path fill-rule="evenodd"
+                                d="M4.755 10.059a7.5 7.5 0 0112.548-3.364l1.903 1.903h-3.183a.75.75 0 100 1.5h4.992a.75.75 0 00.75-.75V4.356a.75.75 0 00-1.5 0v3.18l-1.9-1.9A9 9 0 003.306 9.67a.75.75 0 101.45.388zm15.408 3.352a.75.75 0 00-.919.53 7.5 7.5 0 01-12.548 3.364l-1.902-1.903h3.183a.75.75 0 000-1.5H2.984a.75.75 0 00-.75.75v4.992a.75.75 0 001.5 0v-3.18l1.9 1.9a9 9 0 0015.059-4.035.75.75 0 00-.53-.918z"
+                                clip-rule="evenodd" />
+                        </svg>
+                    </button>
+                </div>
+
+                <ul id="EU-PROD-list" class="w-full flex flex-col gap-2">
+                </ul>
+                <ul id="EU-QA-list" class="w-full hidden flex-col gap-2">
+                </ul>
+            </div>
+
+
+            <!-- LATIN AMERICA -->
+            <div id="LA-group" data-env="1"
+                class="w-full h-max min-h-[350px] bg-white shadow-sm rounded-lg p-4 border border-slate-200">
+                <div class="w-full flex items-center justify-between mb-3">
+                    <div class="flex flex-row items-center gap-2">
+                        <h1 class="font-semibold line-clamp-1">LATIN AMERICA (LA)</h1>
+                        <span id="LA-env-tag"
+                            class="bg-white border border-slate-300 shadow-sm px-1 rounded-md text-[10px]">Production</span>
+                    </div>
+                    <div class="flex flex-grow"></div>
+                    <button onclick="switchEnv('LA')" class="m-0 p-1 rounded-full hover:bg-slate-200"
+                        title="Switch Environment">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4">
+                            <path fill-rule="evenodd"
+                                d="M15.97 2.47a.75.75 0 011.06 0l4.5 4.5a.75.75 0 010 1.06l-4.5 4.5a.75.75 0 11-1.06-1.06l3.22-3.22H7.5a.75.75 0 010-1.5h11.69l-3.22-3.22a.75.75 0 010-1.06zm-7.94 9a.75.75 0 010 1.06l-3.22 3.22H16.5a.75.75 0 010 1.5H4.81l3.22 3.22a.75.75 0 11-1.06 1.06l-4.5-4.5a.75.75 0 010-1.06l4.5-4.5a.75.75 0 011.06 0z"
+                                clip-rule="evenodd" />
+                        </svg>
+                    </button>
+                    <button onclick="refreshGroup('LA')" class="m-0 p-1 rounded-full hover:bg-slate-200"
+                        title="Refresh">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4">
+                            <path fill-rule="evenodd"
+                                d="M4.755 10.059a7.5 7.5 0 0112.548-3.364l1.903 1.903h-3.183a.75.75 0 100 1.5h4.992a.75.75 0 00.75-.75V4.356a.75.75 0 00-1.5 0v3.18l-1.9-1.9A9 9 0 003.306 9.67a.75.75 0 101.45.388zm15.408 3.352a.75.75 0 00-.919.53 7.5 7.5 0 01-12.548 3.364l-1.902-1.903h3.183a.75.75 0 000-1.5H2.984a.75.75 0 00-.75.75v4.992a.75.75 0 001.5 0v-3.18l1.9 1.9a9 9 0 0015.059-4.035.75.75 0 00-.53-.918z"
+                                clip-rule="evenodd" />
+                        </svg>
+                    </button>
+                </div>
+
+                <ul id="LA-PROD-list" class="w-full flex flex-col gap-2">
+                </ul>
+                <ul id="LA-QA-list" class="w-full hidden flex-col gap-2">
+                </ul>
+            </div>
+
+
+            <!-- NORTH AMERICA -->
+            <div id="NA-group" data-env="1"
+                class="w-full h-max min-h-[350px] bg-white shadow-sm rounded-lg p-4 border border-slate-200">
+                <div class="w-full flex items-center justify-between mb-3">
+                    <div class="flex flex-row items-center gap-2">
+                        <h1 class="font-semibold line-clamp-1">NORTH AMERICA (NA)</h1>
+                        <span id="NA-env-tag"
+                            class="bg-white border border-slate-300 shadow-sm px-1 rounded-md text-[10px]">Production</span>
+                    </div>
+                    <div class="flex flex-grow"></div>
+                    <button onclick="switchEnv('NA')" class="m-0 p-1 rounded-full hover:bg-slate-200"
+                        title="Switch Environment">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4">
+                            <path fill-rule="evenodd"
+                                d="M15.97 2.47a.75.75 0 011.06 0l4.5 4.5a.75.75 0 010 1.06l-4.5 4.5a.75.75 0 11-1.06-1.06l3.22-3.22H7.5a.75.75 0 010-1.5h11.69l-3.22-3.22a.75.75 0 010-1.06zm-7.94 9a.75.75 0 010 1.06l-3.22 3.22H16.5a.75.75 0 010 1.5H4.81l3.22 3.22a.75.75 0 11-1.06 1.06l-4.5-4.5a.75.75 0 010-1.06l4.5-4.5a.75.75 0 011.06 0z"
+                                clip-rule="evenodd" />
+                        </svg>
+                    </button>
+                    <button onclick="refreshGroup('NA')" class="m-0 p-1 rounded-full hover:bg-slate-200"
+                        title="Refresh">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4">
+                            <path fill-rule="evenodd"
+                                d="M4.755 10.059a7.5 7.5 0 0112.548-3.364l1.903 1.903h-3.183a.75.75 0 100 1.5h4.992a.75.75 0 00.75-.75V4.356a.75.75 0 00-1.5 0v3.18l-1.9-1.9A9 9 0 003.306 9.67a.75.75 0 101.45.388zm15.408 3.352a.75.75 0 00-.919.53 7.5 7.5 0 01-12.548 3.364l-1.902-1.903h3.183a.75.75 0 000-1.5H2.984a.75.75 0 00-.75.75v4.992a.75.75 0 001.5 0v-3.18l1.9 1.9a9 9 0 0015.059-4.035.75.75 0 00-.53-.918z"
+                                clip-rule="evenodd" />
+                        </svg>
+                    </button>
+                </div>
+
+                <ul id="NA-PROD-list" class="w-full flex flex-col gap-2">
+                </ul>
+                <ul id="NA-QA-list" class="w-full hidden flex-col gap-2">
+                </ul>
+            </div>
+
+        </div>
+
+    </div>
+
+    <script src="./assets/js/jquery.min.js" type="text/javascript"></script>
+    <script src="./assets/js/backend.js" type="text/javascript"></script>
+    <script src="./assets/js/switcher.js" type="text/javascript"></script>
+    <script src="./assets/js/currentdate.js" type="text/javascript"></script>
+
+    <script type="text/javascript">
+        InitializeViews();
+
+        GetReport(["Asia", "LatinAmerica"], 0, "LAAS-QA", 0);
+
+        function refreshGroup(region) {
+            var env = $('#' + region + '-group').attr("data-env");
+
+            const regionTag = {
+                "AS": "Asia",
+                "EU": "Europe",
+                "LA": "LatinAmerica",
+                "NA": "NorthAmerica",
+            };
+
+            const systemTag = {
+                "AS": ["LAAS-QA", "LAAS-PROD"],
+                "EU": ["NAEU-QA", "EU-PROD"],
+                "LA": ["LAAS-QA", "LAAS-PROD"],
+                "NA": ["NAEU-QA", "NA-PROD"],
+            };
+
+            GetReport([regionTag[region]], env, systemTag[region][env]);
+        }
+
+
+    </script>
+</body>
+
+</html>
