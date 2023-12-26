@@ -228,7 +228,7 @@ async function GetReport(reg, env, sys, sdate) {
 
                         if (colorBackground != "bg-white") {
                             forecolor = "text-white";
-                            infocolor = "text-gray-200";
+                            infocolor = "text-gray-50";
                         }
 
                         if (labelEnabled.startsWith("Disabled")) enabledcolor = "bg-red-500";
@@ -246,10 +246,10 @@ async function GetReport(reg, env, sys, sdate) {
                             </div>
                             <p class="text-[9px] line-clamp-1 ${infocolor}">${labelSchedule}</p>
 
-                            <p class="text-xs line-clamp-1 mt-1">DIS Status: <span class="${infocolor}">${labelStatus}</span></p>
-                            <p class="text-xs line-clamp-1">PS Status: <span class="${infocolor}">${labelStatus}</span></p>
+                            <p class="text-xs line-clamp-1 mt-1 font-semibold">DIS Status: <span class="${infocolor} font-normal">${labelStatus}</span></p>
+                            <p class="text-xs line-clamp-1 font-semibold">PS Status: <span class="${infocolor} font-normal">${labelStatus}</span></p>
                             <a href="#"
-                                class="absolute z-10 top-0 bottom-0 right-0 left-0 rounded-lg hover:bg-slate-500 hover:bg-opacity-20"></a>
+                                class="absolute z-10 top-0 bottom-0 right-0 left-0 rounded-lg hover:bg-slate-300 hover:bg-opacity-20"></a>
                         </li>`
                         );
                     }
@@ -309,14 +309,14 @@ async function SendRequest(url, auth, data, method, successCallback, errorCallba
 
 function GetStatusBackgroundColor(status) {
     const backgroundColors = {
-        "Waiting For Files": "bg-yellow-300",
-        "Running": "bg-yellow-300",
-        "Importing": "bg-yellow-300",
-        "Transforming": "bg-yellow-300",
-        "Extracting": "bg-yellow-300",
-        "Checking Import": "bg-yellow-300",
-        "Recovering": "bg-yellow-300",
-        "Recovering (Incomplete)": "bg-yellow-300",
+        "Waiting For Files": "bg-yellow-500",
+        "Running": "bg-yellow-500",
+        "Importing": "bg-yellow-500",
+        "Transforming": "bg-yellow-500",
+        "Extracting": "bg-yellow-500",
+        "Checking Import": "bg-yellow-500",
+        "Recovering": "bg-yellow-500",
+        "Recovering (Incomplete)": "bg-yellow-500",
         "Partially Recovered": "bg-orange-500",
         "Completed": "bg-emerald-500",
         "Completed (Recovery)": "bg-emerald-500",
