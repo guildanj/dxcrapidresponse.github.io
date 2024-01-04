@@ -252,6 +252,7 @@
         InitializeViews();
 
         GetReport(["Asia", "LatinAmerica"], 0, "LAAS-QA", 0);
+        GetReport(["Europe", "NorthAmerica"], 0, "NAEU-QA", 0);
 
         function refreshGroup(region) {
             var env = $('#' + region + '-group').attr("data-env");

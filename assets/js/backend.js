@@ -132,7 +132,7 @@ async function GetReport(reg, env, sys, sdate) {
         Source = {
             "URL_DIS": "https://na1.kinaxis.net/PNGT07_QA2_DIS",
             "URL_PS": "https://na1.kinaxis.net/PNGT08_QA2",
-            "Auth_DIS": "",
+            "Auth_DIS": "Basic YTg3MTFmZWZhYzg1Mjc2OTAzNWM4MDQwZjhkY2NjYTQ6ZTk5NzA0Y2E4Zjc5NTQyOTFjMTgwN2M4ZTI3NDBlNDllMjEyYjcwYmQ2ZDVhNGRmMjc1MjNmNTE1ZGMzMzA0YQ==",
             "Auth_PS": "",
             "HtmlTags": htmlTags,
             "RegionTags": JSON.stringify(regTags),
@@ -218,7 +218,8 @@ async function GetReport(reg, env, sys, sdate) {
                         var ETL = DataDIS[region][ETLName];
                         const labelName = ETL.Label;
                         const labelEnabled = ETL.Enabled;
-                        const labelSchedule = ETL.ScheduleStart;
+                        const labelScheduleF = ETL.ScheduleStart;
+                        const labelScheduleT = ETL.ScheduleEnd;
                         const labelStatus = ETL.Status;
                         const colorBackground = GetStatusBackgroundColor(labelStatus);
 
@@ -244,7 +245,7 @@ async function GetReport(reg, env, sys, sdate) {
                                     <p class="text-[10px] text-black">${labelEnabled}</p>
                                 </div>
                             </div>
-                            <p class="text-[9px] line-clamp-1 ${infocolor}">${labelSchedule}</p>
+                            <p class="text-[9px] line-clamp-1 ${infocolor}">${labelScheduleF} - ${labelScheduleT}</p>
 
                             <p class="text-xs line-clamp-1 mt-1 font-semibold">DIS Status: <span class="${infocolor} font-normal">${labelStatus}</span></p>
                             <p class="text-xs line-clamp-1 font-semibold">PS Status: <span class="${infocolor} font-normal">${labelStatus}</span></p>
@@ -263,6 +264,8 @@ async function GetReport(reg, env, sys, sdate) {
             }
 
             if (!resultDIS.Status) { // if (!resultDIS.Status && !resultPS.Status) {
+
+                console.log(resultDIS.Value);
                 for (var tag in Source.HtmlTags) {
                     const tagList = '#' + Source.HtmlTags[tag] + "-list";
 
@@ -310,6 +313,8 @@ async function SendRequest(url, auth, data, method, successCallback, errorCallba
 function GetStatusBackgroundColor(status) {
     const backgroundColors = {
         "Waiting For Files": "bg-yellow-500",
+        "Awaiting Transformation": "bg-yellow-500",
+        "Awaiting Extract": "bg-yellow-500",
         "Running": "bg-yellow-500",
         "Importing": "bg-yellow-500",
         "Transforming": "bg-yellow-500",
@@ -341,7 +346,7 @@ function getRegionCurrentDate(region, day) {
     var actualDate = new Date();
 
     if (region == "Asia") {
-        if (actualDate.getHours() >= 18) {
+        if (actualDate.getHours() >= 19) {
             // Current Date is Next Day
             actualDate.setDate(actualDate.getDate() + 1);
         }
