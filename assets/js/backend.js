@@ -328,6 +328,7 @@ function GetStatusBackgroundColor(status) {
         "Incomplete": "bg-orange-500",
         "Failed": "bg-red-500",
         "Expired": "bg-red-500",
+        "Incomplete (Expired)": "bg-red-500",
     };
 
     return backgroundColors[status] ?? "bg-white";
