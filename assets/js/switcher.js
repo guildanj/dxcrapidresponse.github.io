@@ -1,12 +1,12 @@
 function switchEnv(region) {
     const tagGroup = '#' + region + '-group';
-    if ($(tagGroup).attr("data-env") == 1) {
+    if ($(tagGroup).attr("data-env") == "PROD") {
         // Change to QA
-        $(tagGroup).attr("data-env", 0);
+        $(tagGroup).attr("data-env", "QA");
         showList(region, 0);
     } else {
         // Change to PROD
-        $(tagGroup).attr("data-env", 1);
+        $(tagGroup).attr("data-env", "PROD");
         showList(region, 1);
     }
 }
@@ -22,7 +22,7 @@ function showList(region, env) {
         $(tagQA).addClass("hidden");
         $(tagQA).removeClass("flex");
 
-        $(tagLabel).html("Production");
+        $(tagLabel).html("PROD");
     } else {
         $(tagQA).addClass("flex");
         $(tagQA).removeClass("hidden");

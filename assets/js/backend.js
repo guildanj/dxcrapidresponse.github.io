@@ -1,15 +1,14 @@
 const API_URL = "https://prod-125.westus.logic.azure.com:443/workflows/a0cde2db054b4a3da2a27c4c68c785e6/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=wz18VmAs1xjBsUOeHxX3YGQdaKCYB6FDbK4uk5YuEQI";
-var API_DATE = new Date(2023, 12 - 1, 20);
 
 var CACHED_DATA = {
-    "AS-QA": null,
-    "EU-QA": null,
-    "LA-QA": null,
-    "NA-QA": null,
-    "AS-PROD": null,
-    "EU-PROD": null,
-    "LA-PROD": null,
-    "NA-PROD": null,
+    "AS-QA": { "DIS": null, "PS": null },
+    "EU-QA": { "DIS": null, "PS": null },
+    "LA-QA": { "DIS": null, "PS": null },
+    "NA-QA": { "DIS": null, "PS": null },
+    "AS-PROD": { "DIS": null, "PS": null },
+    "EU-PROD": { "DIS": null, "PS": null },
+    "LA-PROD": { "DIS": null, "PS": null },
+    "NA-PROD": { "DIS": null, "PS": null },
 }
 
 var PROCESSING = {
@@ -30,12 +29,13 @@ async function delay(ms) {
 function Obj_Initial(id) {
     return `<li id="${id}-item-initial" class="w-full h-[275px] px-4 py-8 flex flex-col items-center justify-center text-center">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
-                    class="w-16 h-16 text-slate-300">
+                    class="w-16 h-16 text-slate-400">
                     <path fill-rule="evenodd"
                         d="M11.622 1.602a.75.75 0 01.756 0l2.25 1.313a.75.75 0 01-.756 1.295L12 3.118 10.128 4.21a.75.75 0 11-.756-1.295l2.25-1.313zM5.898 5.81a.75.75 0 01-.27 1.025l-1.14.665 1.14.665a.75.75 0 11-.756 1.295L3.75 8.806v.944a.75.75 0 01-1.5 0V7.5a.75.75 0 01.372-.648l2.25-1.312a.75.75 0 011.026.27zm12.204 0a.75.75 0 011.026-.27l2.25 1.312a.75.75 0 01.372.648v2.25a.75.75 0 01-1.5 0v-.944l-1.122.654a.75.75 0 11-.756-1.295l1.14-.665-1.14-.665a.75.75 0 01-.27-1.025zm-9 5.25a.75.75 0 011.026-.27L12 11.882l1.872-1.092a.75.75 0 11.756 1.295l-1.878 1.096V15a.75.75 0 01-1.5 0v-1.82l-1.878-1.095a.75.75 0 01-.27-1.025zM3 13.5a.75.75 0 01.75.75v1.82l1.878 1.095a.75.75 0 11-.756 1.295l-2.25-1.312a.75.75 0 01-.372-.648v-2.25A.75.75 0 013 13.5zm18 0a.75.75 0 01.75.75v2.25a.75.75 0 01-.372.648l-2.25 1.312a.75.75 0 11-.756-1.295l1.878-1.096V14.25a.75.75 0 01.75-.75zm-9 5.25a.75.75 0 01.75.75v.944l1.122-.654a.75.75 0 11.756 1.295l-2.25 1.313a.75.75 0 01-.756 0l-2.25-1.313a.75.75 0 11.756-1.295l1.122.654V19.5a.75.75 0 01.75-.75z"
                         clip-rule="evenodd" />
                 </svg>
-                <h1 class="text-sm text-slate-600 mt-2">Please wait while we initialize the page</h1>
+                <h1 class="text-xs text-black my-4">To minimize API usage, user will need to manually start the monitoring process using the button below.</h1>
+                <button onclick="startMonitoring('${id}')" class="bg-slate-500 text-white text-xs font-semibold px-3 py-1 rounded-md hover:bg-slate-600">Start Monitoring</button>
             </li>`;
 }
 
@@ -53,13 +53,13 @@ function Obj_Loading(id) {
 function Obj_Error(id) {
     return `<li id="${id}-item-error" class="w-full h-[275px] px-4 py-8 flex flex-col items-center justify-center text-center">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
-                    class="w-16 h-16 text-slate-300">
+                    class="w-16 h-16 text-slate-400">
                     <path fill-rule="evenodd"
                         d="M9.401 3.003c1.155-2 4.043-2 5.197 0l7.355 12.748c1.154 2-.29 4.5-2.599 4.5H4.645c-2.309 0-3.752-2.5-2.598-4.5L9.4 3.003zM12 8.25a.75.75 0 01.75.75v3.75a.75.75 0 01-1.5 0V9a.75.75 0 01.75-.75zm0 8.25a.75.75 0 100-1.5.75.75 0 000 1.5z"
                         clip-rule="evenodd" />
                 </svg>
-                <h1 class="font-semibold text-md">Please try again!</h1>
-                <p class="text-xs text-slate-400">Unable to fetch data from RapidResponse. You can click <a
+                <h1 class="font-semibold text-md text-black mt-4 mb-1">Please try again!</h1>
+                <p class="text-xs text-slate-500">Unable to fetch data from RapidResponse. You can click <a
                         href="#" class="font-semibold">here</a> to view what went wrong.</p>
             </li>`;
 }
@@ -167,7 +167,7 @@ async function GetReport(reg, env, sys, sdate) {
     }
 
     if (Source != null) {
-
+        console.log(Source.RegionTags);
         // Check if the selected system is already being processed, skip if yes.
         if (Object.keys(Source.HtmlTags).length > 0) {
 
@@ -208,10 +208,13 @@ async function GetReport(reg, env, sys, sdate) {
                 var DataDIS = JSON.parse(resultDIS.Response.Value);
                 console.log(DataDIS);
 
-                for (var region in JSON.parse(Source.RegionTags)) {
+                const RegionTags = JSON.parse(Source.RegionTags);
+                for (var region in RegionTags) {
                     const tag = Source.HtmlTags[region];
                     const tagList = '#' + tag + "-list";
                     $(tagList).empty();
+
+                    CACHED_DATA[tag]["DIS"] = DataDIS[region];
 
                     for (var ETLName in DataDIS[region]) {
 
@@ -245,12 +248,11 @@ async function GetReport(reg, env, sys, sdate) {
                                     <p class="text-[10px] text-black">${labelEnabled}</p>
                                 </div>
                             </div>
-                            <p class="text-[9px] line-clamp-1 ${infocolor}">${labelScheduleF} - ${labelScheduleT}</p>
+                            <p class="text-[11px] line-clamp-1 ${infocolor}">${labelScheduleF} - ${labelScheduleT}</p>
 
                             <p class="text-xs line-clamp-1 mt-1 font-semibold">DIS Status: <span class="${infocolor} font-normal">${labelStatus}</span></p>
-                            <p class="text-xs line-clamp-1 font-semibold">PS Status: <span class="${infocolor} font-normal">${labelStatus}</span></p>
-                            <a href="#"
-                                class="absolute z-10 top-0 bottom-0 right-0 left-0 rounded-lg hover:bg-slate-300 hover:bg-opacity-20"></a>
+                            <p class="text-xs line-clamp-1 font-semibold">PS Status: </p>
+                            <a onclick="viewDetails('${tag}','${ETLName}', '0')" class="cursor-pointer absolute z-10 top-0 bottom-0 right-0 left-0 rounded-lg hover:bg-slate-300 hover:bg-opacity-20"></a>
                         </li>`
                         );
                     }
@@ -342,6 +344,29 @@ function ParseDateToString(date) {
     return `${m}-${d}-${y}`;
 }
 
+function ParseTimeToString(date) {
+    var hours = date.getHours();
+    var minutes = date.getMinutes();
+    var ampm = hours >= 12 ? 'PM' : 'AM';
+    hours = hours % 12;
+    hours = hours ? hours : 12; // the hour '0' should be '12'
+    minutes = minutes < 10 ? '0' + minutes : minutes;
+    var strTime = hours + ':' + minutes + ' ' + ampm;
+    return strTime;
+}
+
+function ParseRuntimeDateToString(sdate, edate, rtime, suffix) {
+    var s = ParseDateToString(new Date(sdate));
+    var s1 = ParseTimeToString(new Date(sdate));
+
+    if (edate == "") return `${s} ${s1} to Current (${rtime} ${suffix})`;
+
+    var e = ParseDateToString(new Date(edate));
+    var e1 = ParseTimeToString(new Date(edate));
+
+    return `${s} ${s1} to ${e} ${e1} (${rtime} ${suffix})`;
+}
+
 function getRegionCurrentDate(region, day) {
 
     var actualDate = new Date();
@@ -360,8 +385,90 @@ function getRegionCurrentDate(region, day) {
 
     // Offset
     if (day > 0) {
-        actualDate.setDate(actualDate.getDate() + day);
+        actualDate.setDate(actualDate.getDate() - day);
     }
 
     return ParseDateToString(actualDate);
+}
+
+function viewDetails(region, etl, server) {
+    var data = CACHED_DATA[region]["DIS"][etl];
+    $('#details-title').val(data['Label'] + "'s Tasks");
+
+    if (data.Started == true) {
+        for (var taskName in data.Tasks) {
+            var task = data.Tasks[taskName];
+            var prefix = '#details-' + server + '-' + taskName.toLocaleLowerCase();
+            $(prefix).hide();
+
+            if (task != null) {
+                $(prefix).show();
+
+                if (taskName == "Import" && server == 0) {
+                    var time = ParseRuntimeDateToString(task['StartTime'], task['EndTime'], task['RunTime'], "mins");
+
+                    var tags = task['TagFileCount'];
+                    var tag = data['ExpectedTagFile'];
+                    if (tags <= 0) tag += " (Not Found)";
+                    else if (tags == 1) tag += " (Found)";
+                    else tag += " (Muiltiple)";
+
+                    var operation = "Normal";
+                    if (task['Recovery'] == true) operation = "Recovery";
+
+                    $(prefix + '-id').text(task["ID"]);
+                    $(prefix + '-status').text(task["Status"]);
+                    $(prefix + '-time').text(time);
+                    $(prefix + '-tag').text(tag);
+                    $(prefix + '-count').text(task["RecordCount"] + " files");
+                    $(prefix + '-operation').text(operation);
+                } else if (taskName == "Transform" && server == 0) {
+                    var time = ParseRuntimeDateToString(task['StartTime'], task['EndTime'], task['RunTime'], "secs");
+
+                    var operation = "Normal";
+                    if (task['Recovery'] == true) {
+                        operation = "Recovery";
+                        if (task['Failure'] != true) operation += " (Re-Run)";
+                    }
+
+                    $(prefix + '-id').text(task["Name"]);
+                    $(prefix + '-status').text(task["Status"]);
+                    $(prefix + '-time').text(time);
+                    $(prefix + '-ownby').text(task["Owner"]);
+                    $(prefix + '-runby').text(task["RunBy"]);
+                    $(prefix + '-operation').text(operation);
+                } else if (taskName == "Extract" && server == 0) {
+                    var time = ParseRuntimeDateToString(task['StartTime'], task['EndTime'], task['RunTime'], "mins");
+
+                    var operation = "Normal";
+                    if (task['Recovery'] == true) {
+                        operation = "Recovery";
+                        if (task['Failure'] != true) operation += " (Re-Run)";
+                    }
+
+                    var tables = task["Tables"] ?? "N/A";
+                    if (tables != "N/A") tables += " tables";
+
+                    $(prefix + '-id').text(task["Name"]);
+                    $(prefix + '-status').text(task["Status"]);
+                    $(prefix + '-time').text(time);
+                    $(prefix + '-tables').text(tables);
+                    $(prefix + '-operation').text(operation);
+                }
+
+                var bgcolor = "text-white"
+                if (task["Status"] != "Scheduled") {
+                    $(prefix + '-statusparent').addClass("text-white");
+                    bgcolor = GetStatusBackgroundColor(task['Status']);
+                }
+                $(prefix + '-statusparent').addClass(bgcolor);
+            }
+        }
+
+        $('#modal-details').show();
+
+    } else {
+        showMessage("Please try again!", "Unable to show detailed information of each underlying processes because the task has not yet started or completed.");
+    }
+
 }
